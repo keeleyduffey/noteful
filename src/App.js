@@ -5,97 +5,104 @@ import Sidebar from './Sidebar/Sidebar';
 import NoteSidebar from './NoteSidebar/NoteSidebar';
 import Main from './Main/Main';
 import FullNote from './FullNote/FullNote';
-import STORE from './store';
+// import STORE from './store';
+import NotefulContext from './NotefulContext';
+import config from './config';
 import './App.css';
-
 
 
 
 class App extends Component {
   state = {
-    allFolders: STORE.folders,
-    allNotes: STORE.notes,
+    folders: [], //STORE.folders,
+    notes: [], //STORE.notes,
+    error: null
   };
+  
+  setFolders = folders => {
+    this.setState({
+      folders,
+      error: null,
+    })
+  }
 
-  getFolder = (folders, folderId) =>
-    folders.find(folder => folder.id === folderId)
+  setNotes = notes => {
+    this.setState({
+      notes,
+      error: null,
+    })
+  }
 
-  getNote = (notes, noteId) =>
-    notes.find(note => note.id === noteId)
+  deleteNote = noteId => {
+    const newNotes = this.state.notes.filter(note =>
+      note.id !== noteId
+    )
+    this.setState({
+      notes: newNotes
+    })
+  }
 
-  getNotesForFolder = (notes, folderId) =>
-    notes.filter(note => note.folderId === folderId)
+
+  async componentDidMount() {
+    Promise.all([
+      fetch(config.API_ENDPOINT_NOTES),
+      fetch(config.API_ENDPOINT_FOLDERS)
+    ])
+    .then(([resNotes, resFolders]) => {
+      if (!resNotes.ok) return resNotes.json().then(e => Promise.reject(e));
+      if (!resFolders.ok) return resFolders.json().then(e => Promise.reject(e));
+
+      return Promise.all([resNotes.json(), resFolders.json()]);
+    })
+    .then(([notes, folders]) => {
+      this.setState({notes, folders});
+    })
+    .catch(error => this.setState({ error }))
+  }
+
 
   renderSidebar () {
-    const { allFolders, allNotes } = this.state
     return (
       <>
         <Route
           exact
           path='/'
-          render={routeProps => {
-            return <Sidebar
-              folders={allFolders} />
-          }}
+          component={Sidebar}
         />
 
         <Route
           exact
           path='/folder/:folderId'
-          render={routeProps => {
-            return <Sidebar
-              folders={allFolders} />
-          }}
+          component={Sidebar}
         />
 
         <Route
+          exact
           path='/note/:noteId'
-          render={routeProps => {
-            const {noteId} = routeProps.match.params;
-            const note = this.getNote(allNotes, noteId) || {};
-            const folder = this.getFolder(allFolders, note.folderId);
-            return <NoteSidebar
-              {...routeProps} folder={folder} />
-          }}
+          component={NoteSidebar}
         />
       </>
     )
   }
 
   renderMain () {
-    const { allFolders, allNotes } = this.state
     return (
       <>
         <Route
           exact
           path='/'
-          render={routeProps => {
-            return <Main
-              {...routeProps}
-              notes={allNotes} />
-          }}
+          component={Main}
          />
 
         <Route
           exact
           path='/folder/:folderId'
-          render={routeProps => {
-            const {folderId} = routeProps.match.params;
-            const notesForFolder = this.getNotesForFolder(allNotes, folderId);
-            return <Main
-              {...routeProps}
-              notes={notesForFolder} />
-          }}
+          component={Main}
         /> 
         <Route 
+          exact
           path='/note/:noteId' 
-          render={routeProps => {
-            const {noteId} = routeProps.match.params;
-            const note = this.getNote(allNotes, noteId);
-            return <FullNote
-              {...routeProps}
-              note={note} />
-          }}
+          component={FullNote}
         /> 
       </>
     )
@@ -103,13 +110,20 @@ class App extends Component {
 
 
   render() {
+    const contextValue = {
+      notes: this.state.notes,
+      folders: this.state.folders,
+      deleteNote: this.deleteNote,
+    }
     return (
       <main className='App'>
         <Header />
-        <div className='content' aria-live='polite'>
-          <nav>{this.renderSidebar()}</nav> 
-          <main>{this.renderMain()}</main>
-        </div>
+        <NotefulContext.Provider value={contextValue}>
+          <div className='content' aria-live='polite'>
+            <nav>{this.renderSidebar()}</nav> 
+            <main>{this.renderMain()}</main>
+          </div>
+         </NotefulContext.Provider>
       </main>
     );
   }

@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import Note from '../Note/Note';
+import NotefulContext from '../NotefulContext';
+import {getNotesForFolder} from '../helper-functions';
 import './Main.css'
 
 class Main extends Component {
-  static defaultProps = {
-    notes: []
-  };
+  static contextType = NotefulContext;
 
   render() {
-    const { notes } = this.props
+    const { notes } = this.context
+    const {folderId} = this.props.match.params;
+    const notesForFolder = getNotesForFolder(notes, folderId);
     return (
       <section className='Main'>
         <ul className='Note__list' aria-live='polite'>
-          {notes.map(note =>
+          {notesForFolder.map(note =>
             <li key={note.id}>
               <Note
                 id={note.id}

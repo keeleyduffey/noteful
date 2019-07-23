@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import NotefulContext from '../NotefulContext';
 import './Sidebar.css'
 
 class Sidebar extends Component {
-  static defaultProps = {
-    folders: []
-  };
+ static contextType = NotefulContext;
 
   render() {
-    const { folders } = this.props
-    console.log(folders);
+    const { folders } = this.context;
+
     return (
       <section className='Sidebar'>
         <ul className='Folder__list' aria-live='polite'>
