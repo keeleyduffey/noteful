@@ -5,20 +5,27 @@ import './AddNote.css';
 
 
 class AddNote extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: '',
+      validationErr: ''
+    };
+  }
+
   static defaultProps ={
     handleSubmit: () => {},
   }
 
   static contextType = NotefulContext;
 
-
   handleSubmit(e) {
     try {
       e.preventDefault();
       
       const noteName = e.target['note-name'].value;
-      this.validationErrMsg = this.validateName(noteName);
-      if (this.validationErrMsg) return alert(this.validationErrMsg);
+      const validationErrMsg = this.validateName(noteName);
+      if (validationErrMsg) return this.setState({ validationErr: validationErrMsg });
 
       const note = {
         name: noteName,
@@ -47,7 +54,7 @@ class AddNote extends Component {
         })
       } catch(err) {
         console.log(err);
-        this.error = err;
+        this.setState({ error: err });
       }
     
 
@@ -62,7 +69,7 @@ class AddNote extends Component {
   }
 
   render () {
-    const validationErrMsg = this && this.validationErrMsg;
+
     return (
       <form className="addNote" onSubmit={e => this.handleSubmit(e)}>
         <h2>Add New Note</h2>  
@@ -70,12 +77,11 @@ class AddNote extends Component {
           <label htmlFor="note-name">Name </label>
           <input type="text"
            name="note-name" id="note-name" />
-          {validationErrMsg && (
-            <div>{validationErrMsg}</div>
+          {this.state.validationErr && (
+            <div>{this.state.validationErr}</div>
           )}
           
         </div>
-         <div>{validationErrMsg}</div>
         <div className="form-group">
           <label htmlFor="note-content">Content </label>
           <textarea type="text"
@@ -97,8 +103,8 @@ class AddNote extends Component {
           </button>
         </div>
 
-        {this.error && (
-          <div>{this.error}</div>
+        {this.state.error &&  (
+          <div>{this.state.error.toString()}</div>
         )}
 
       </form>

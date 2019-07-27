@@ -9,7 +9,6 @@ class NoteDetail extends Component {
 
   render() {
     const { content } = this.props
-    console.log(this.props);
     return (
       <section className='NoteDetail'>
         <p>{content}</p> 
