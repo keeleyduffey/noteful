@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import Note from '../Note/Note';
 import NotefulContext from '../NotefulContext';
+import { Link } from 'react-router-dom';
 import {getNotesForFolder} from '../helper-functions';
-import './Main.css'
+import './Main.css';
 
 class Main extends Component {
+  static defaultProps = {
+    match: {
+      params: {}
+    }
+  }
   static contextType = NotefulContext;
 
   render() {
     const { notes } = this.context
     const {folderId} = this.props.match.params;
     const notesForFolder = getNotesForFolder(notes, folderId);
+  
     return (
       <section className='Main'>
         <ul className='Note__list' aria-live='polite'>
@@ -23,7 +30,7 @@ class Main extends Component {
             </li>
           )}
         </ul>
-        <button>Add note</button>
+        <Link to={`/add-note`} className="add-button">+ Add note</Link>
       </section>
     );
   }

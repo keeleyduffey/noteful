@@ -3,3 +3,18 @@
 	text-align: center;
 	min-height: 200px;
 }
+
+h1 {
+	padding: 8vh;
+	font-size: 50px;
+	text-transform: uppercase;
+}
+
+.Header_Link {
+	text-decoration: none;
+	color: #555;
+}
+
+.Header_Link:hover {
+	color: #2f3f73;
+}

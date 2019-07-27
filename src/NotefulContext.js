@@ -3,8 +3,10 @@ import React from 'react'
 const NotefulContext = React.createContext({
   notes: [],
   folders: [],
-  // addBookmark: () => {},
+  addFolder: () => {},
+  addNote: () => {},
   deleteNote: () => {},
+  error: ''
 })
 
 export default NotefulContext

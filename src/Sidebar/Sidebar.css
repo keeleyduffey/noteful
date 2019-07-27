@@ -1,3 +1,18 @@
-.Sidebar {
-	padding: 30px;
+
+.Folders {
+	padding: 5px;
+}
+
+.Folders a {
+	color: #555;
+	text-decoration: none;
+}
+
+.Folders a:hover {
+	color: #2f3f73;
+	font-weight: 700;
+}
+
+.add-button.folder {
+	text-align: left;
 }

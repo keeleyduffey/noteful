@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-// import Folder from '../Folder/Folder';
-// import './MainFolders.css'
+import PropTypes from 'prop-types';
+
 
 class NoteDetail extends Component {
-  // static defaultProps = {
-  //   folders: []
-  // };
+  static defaultProps = {
+    content: ''
+  };
 
   render() {
     const { content } = this.props
@@ -17,5 +17,9 @@ class NoteDetail extends Component {
     );
   }
 }
+
+NoteDetail.propTypes = {
+  content: PropTypes.string.isRequired,
+};
 
 export default NoteDetail;

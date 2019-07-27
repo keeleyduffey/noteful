@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import NotefulContext from '../NotefulContext';
 import config from '../config';
+import PropTypes from 'prop-types';
 import './Note.css';
 
 
@@ -36,14 +37,14 @@ class Note extends Component {
 
   render() {
     const { name, modified, id } = this.props
+    // if (name) throw new Error('ahhhh');
     return (
       <div className='Note'>
         <h2>
-          <Link to={`/note/${id}`}>{name}</Link>
+          <Link to={`/note/${id}`} className="Note_Name">{name}</Link>
         </h2>
-        <p>Last Modified: {modified}</p>
-        <button onClick={this.deleteNoteRequest} 
-        >
+        <p>Last Modified: {new Date(modified).toUTCString()}</p>
+        <button onClick={this.deleteNoteRequest} className="action-button">
           Delete Note
         </button>
       </div>
@@ -52,8 +53,11 @@ class Note extends Component {
   
 }
 
-Note.defaultProps = {
-  onClickDelete: () => {},
-}
+Note.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  modified: PropTypes.string.isRequired,
+};
+
 
 export default Note;

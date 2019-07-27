@@ -7,7 +7,7 @@ function Header() {
   return (
     <header className="Header">
       <h1>
-      	<Link to="/">Noteful</Link>
+      	<Link to="/" className="Header_Link">Noteful</Link>
       </h1>
     </header> 
   );

@@ -1,0 +1,12 @@
+.form-group {
+	padding: 10px;
+}
+
+textarea {
+	height: 100px;
+	width: 200px;
+}
+
+label {
+	display: block;
+}

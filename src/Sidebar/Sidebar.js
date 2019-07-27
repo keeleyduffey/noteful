@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import NotefulContext from '../NotefulContext';
 import './Sidebar.css'
 
@@ -8,9 +8,8 @@ class Sidebar extends Component {
 
   render() {
     const { folders } = this.context;
-
     return (
-      <section className='Sidebar'>
+      <div className="Sidebars">
         <ul className='Folder__list' aria-live='polite'>
           {folders.map(folder =>
           <li className='Folders' key={folder.id}>
@@ -18,8 +17,8 @@ class Sidebar extends Component {
           </li>
           )}
         </ul>
-        <button>Add folder</button>
-      </section>
+        <Link to={`/add-folder`} className="add-button folder">+ Add folder</Link>
+      </div>
     );
   }
 }

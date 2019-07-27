@@ -1,4 +1,14 @@
 .Note {
 	border: 1px solid navy;
 	margin: 10px auto;
+	padding: 30px;
+}
+
+.Note_Name {
+	color: #555;
+	text-decoration: none;
+}
+
+.Note_Name:hover {
+	color: #172556;
 }
