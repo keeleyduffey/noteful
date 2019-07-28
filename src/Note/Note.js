@@ -8,7 +8,10 @@ import './Note.css';
 
 
 class Note extends Component {
-  static defaultProps ={
+  static defaultProps = {
+    name: '',
+    id: '',
+    modified: '',
     deleteNoteRequest: () => {},
   }
   static contextType = NotefulContext;
@@ -29,6 +32,9 @@ class Note extends Component {
       }))
       .then(() => {
         this.context.deleteNote(noteId);
+        this.props.deleteNoteRequest(noteId);
+        // this.props.history.push(`/`);
+        // console.log(this.context);
       })
       .catch(error => {
         console.error({ error })
@@ -37,17 +43,24 @@ class Note extends Component {
 
   render() {
     const { name, modified, id } = this.props
-    // if (name) throw new Error('ahhhh');
     return (
       <div className='Note'>
-        <h2>
-          <Link to={`/note/${id}`} className="Note_Name">{name}</Link>
-        </h2>
-        <p>Last Modified: {new Date(modified).toUTCString()}</p>
-        <button onClick={this.deleteNoteRequest} className="action-button">
-          Delete Note
-        </button>
+        { name &&
+          <div>
+            <h2>
+              <Link to={`/note/${id}`} className="Note_Name">{name}</Link>
+            </h2>
+            <p>Last Modified: {new Date(modified).toUTCString()}</p>
+              <button onClick={this.deleteNoteRequest} className="action-button">
+                Delete Note
+              </button>
+          </div>
+        }
+        {!name &&
+         <div>No note found</div>
+        }
       </div>
+        
     )
   }
   

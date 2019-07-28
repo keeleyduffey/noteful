@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NotefulContext from '../NotefulContext';
+import PropTypes from 'prop-types';
 import config from '../config';
 
 class AddFolder extends Component {
@@ -12,6 +13,9 @@ class AddFolder extends Component {
 
   static defaultProps = {
     handleSubmit: () => {},
+    history: {
+      push: () => {}
+    },
   }
 
   static contextType = NotefulContext;
@@ -34,7 +38,7 @@ class AddFolder extends Component {
            if (!res.ok) return res.json().then(e => Promise.reject(e));
            return res.json();
          }))
-         .then(() => {
+         .then(folder => {
            this.context.addFolder(folder);
            this.props.history.push(`/folder/${folder.id}`)
          })
@@ -72,5 +76,12 @@ class AddFolder extends Component {
    )
   }
 }
+
+AddFolder.propTypes = {
+  handleSubmit: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  })
+};
 
 export default AddFolder;

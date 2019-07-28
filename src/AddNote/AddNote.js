@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NotefulContext from '../NotefulContext';
+import PropTypes from 'prop-types';
 import config from '../config';
 import './AddNote.css';
 
@@ -13,8 +14,11 @@ class AddNote extends Component {
     };
   }
 
-  static defaultProps ={
+  static defaultProps = {
     handleSubmit: () => {},
+    history: {
+      push: () => {}
+    },
   }
 
   static contextType = NotefulContext;
@@ -45,7 +49,7 @@ class AddNote extends Component {
           if (!res.ok) return res.json().then(e => Promise.reject(e));
           return res.json();
         }))
-        .then(() => {
+        .then(note => {
           this.context.addNote(note);
           this.props.history.push(`/folder/${note.folderId}`)
         })
@@ -111,5 +115,12 @@ class AddNote extends Component {
     )
   }
 }
+
+AddNote.propTypes = {
+  handleSubmit: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  })
+};
 
 export default AddNote;
