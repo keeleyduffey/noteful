@@ -74,7 +74,7 @@ class App extends Component {
 
         <Route
           exact
-          path='/folder/:folderId'
+          path='/folder/:folder_id'
           component={Sidebar}
         />
 
@@ -107,7 +107,7 @@ class App extends Component {
 
         <Route
           exact
-          path='/folder/:folderId'
+          path='/folder/:folder_id'
           component={Main}
         /> 
 

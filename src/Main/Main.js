@@ -15,9 +15,9 @@ class Main extends Component {
 
   render() {
     const { notes } = this.context
-    const {folderId} = this.props.match.params;
-    const notesForFolder = getNotesForFolder(notes, folderId);
-  
+    const {folder_id} = this.props.match.params;
+    const notesForFolder = getNotesForFolder(notes, folder_id);
+    
     return (
       <section className='Main'>
         <ul className='Note__list' aria-live='polite'>

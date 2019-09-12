@@ -1,0 +1,9 @@
+Searching 23 files for "folder_Id" (case sensitive)
+
+/Users/keeley/projects/react/noteful/src/helper-functions.js:
+   10  	console.log(notes);
+   11  	console.log(intId);
+   12: 	return intId ? notes.filter(note => {console.log(note.folder_id); return note.folder_id === intId}) : notes
+   13  }
+
+2 matches in 1 file

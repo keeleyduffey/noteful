@@ -1,9 +1,9 @@
 
-export const getFolder = (folders, folderId) =>
-    folders.find(folder => folder.id === folderId)
+export const getFolder = (folders, folder_id) =>
+    folders.find(folder => folder.folder_id === parseInt(folder_id))
 
 export const getNote = (notes, noteId) =>
-    notes.find(note => note.id === noteId)
+    notes.find(note => note.id === parseInt(noteId))
 
-export const getNotesForFolder = (notes, folderId) =>  
-	folderId ? notes.filter(note => note.folderId === folderId) : notes
+export const getNotesForFolder = (notes, folder_id) =>  
+	folder_id ? notes.filter(note => note.folder_id === parseInt(folder_id)) : notes
