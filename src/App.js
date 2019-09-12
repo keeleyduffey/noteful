@@ -47,8 +47,8 @@ class App extends Component {
 
   async componentDidMount() {
     Promise.all([
-      fetch(config.API_ENDPOINT_NOTES),
-      fetch(config.API_ENDPOINT_FOLDERS)
+      fetch(`${config.API_ENDPOINT}/notes`),
+      fetch(`${config.API_ENDPOINT}/folders`)
     ])
     .then(([resNotes, resFolders]) => {
       if (!resNotes.ok) return resNotes.json().then(e => Promise.reject(e));

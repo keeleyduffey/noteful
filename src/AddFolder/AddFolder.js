@@ -24,10 +24,9 @@ class AddFolder extends Component {
     try { 
       e.preventDefault();
        const folder = {
-         name: e.target['folder-name'].value
+         folder_name: e.target['folder-name'].value
        }
-       
-       fetch(`${config.API_ENDPOINT_FOLDERS}`, {
+       fetch(`${config.API_ENDPOINT}/folders`, {
          method: 'POST',
          headers: {
            'content-type': 'application/json'

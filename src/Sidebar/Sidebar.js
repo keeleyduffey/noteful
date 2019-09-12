@@ -13,7 +13,7 @@ class Sidebar extends Component {
         <ul className='Folder__list' aria-live='polite'>
           {folders.map(folder =>
           <li className='Folders' key={folder.id}>
-            <NavLink to={`/folder/${folder.id}`}>{folder.name}</NavLink>
+            <NavLink to={`/folder/${folder.id}`}>{folder.folder_name}</NavLink>
           </li>
           )}
         </ul>

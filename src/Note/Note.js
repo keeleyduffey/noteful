@@ -11,7 +11,7 @@ class Note extends Component {
   static defaultProps = {
     name: '',
     id: '',
-    modified: '',
+    date_modified: '',
     deleteNoteRequest: () => {},
   }
   static contextType = NotefulContext;
@@ -20,7 +20,7 @@ class Note extends Component {
     e.preventDefault()
     const noteId = this.props.id
 
-    fetch(`${config.API_ENDPOINT_NOTES}/${noteId}`, {
+    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
@@ -42,7 +42,7 @@ class Note extends Component {
   }
 
   render() {
-    const { name, modified, id } = this.props
+    const { name, date_modified, id } = this.props
     return (
       <div className='Note'>
         { name &&
@@ -50,7 +50,7 @@ class Note extends Component {
             <h2>
               <Link to={`/note/${id}`} className="Note_Name">{name}</Link>
             </h2>
-            <p>Last Modified: {new Date(modified).toUTCString()}</p>
+            <p>Last Modified: {new Date(date_modified).toUTCString()}</p>
               <button onClick={this.deleteNoteRequest} className="action-button">
                 Delete Note
               </button>
@@ -67,9 +67,9 @@ class Note extends Component {
 }
 
 Note.propTypes = {
-  id: PropTypes.string.isRequired,
+  // id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  modified: PropTypes.string.isRequired,
+  date_modified: PropTypes.string.isRequired,
 };
 
 

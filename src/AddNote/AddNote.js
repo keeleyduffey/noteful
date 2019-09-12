@@ -34,11 +34,11 @@ class AddNote extends Component {
       const note = {
         name: noteName,
         content: e.target['note-content'].value,
-        folderId: e.target['note-folder'].value,
-        modified: new Date(),
+        folder_id: e.target['note-folder'].value,
+        date_modified: new Date(),
       }
 
-      fetch(`${config.API_ENDPOINT_NOTES}`, {
+      fetch(`${config.API_ENDPOINT}/notes`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
@@ -95,7 +95,7 @@ class AddNote extends Component {
           <label htmlFor="note-folder">Folder </label>
           <select name="note-folder" id="note-folder">
             {this.context.folders.map(folder => 
-              <option value={folder.id} key={folder.id}>{folder.name}</option>
+              <option value={folder.id} key={folder.id}>{folder.folder_name}</option>
             )}
           </select>
 
