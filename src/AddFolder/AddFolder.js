@@ -7,7 +7,8 @@ class AddFolder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: ''
+      error: '',
+      validationErr: ''
     };
   }
 
@@ -23,32 +24,42 @@ class AddFolder extends Component {
   handleSubmit(e) {
     try { 
       e.preventDefault();
-       const folder = {
-         folder_name: e.target['folder-name'].value
-       }
-       fetch(`${config.API_ENDPOINT}/folders`, {
-         method: 'POST',
-         headers: {
-           'content-type': 'application/json'
-         },
-         body: JSON.stringify(folder),
+      const folder = {
+        folder_name: e.target['folder-name'].value
+      }
+
+      const validationErrMsg = this.validateName(folder.folder_name);
+      if (validationErrMsg) return this.setState({ validationErr: validationErrMsg });
+
+      fetch(`${config.API_ENDPOINT}/folders`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(folder),
        })
        .then((res => {
-           if (!res.ok) return res.json().then(e => Promise.reject(e));
-           return res.json();
-         }))
-         .then(folder => {
-           this.context.addFolder(folder);
-           this.props.history.push(`/folder/${folder.id}`)
-         })
-         .catch(error => {
-           console.error({ error })
-         })
+          if (!res.ok) return res.json().then(e => Promise.reject(e));
+          return res.json();
+        }))
+        .then(folder => {
+          this.context.addFolder(folder);
+          this.props.history.push(`/folder/${folder.id}`)
+        })
+        .catch(error => {
+          console.error({ error })
+        })
       } catch (err) {
         console.log(err);
         this.setState({ error: err });
       }
   }
+  validateName(name) {
+    if (name.length === 0) {
+      return 'Folder name is required';
+    }
+  }
+
 
   render () {
     return (
@@ -58,6 +69,9 @@ class AddFolder extends Component {
           <label htmlFor="folder-name">Name</label>
           <input type="text"
             name="folder-name" id="folder-name" />
+          {this.state.validationErr && (
+            <div>{this.state.validationErr}</div>
+          )}
         </div>
 
         <div className="button_wrapper">

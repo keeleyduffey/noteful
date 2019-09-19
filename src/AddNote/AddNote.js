@@ -83,9 +83,9 @@ class AddNote extends Component {
            name="note-name" id="note-name" />
           {this.state.validationErr && (
             <div>{this.state.validationErr}</div>
-          )}
-          
+          )}  
         </div>
+
         <div className="form-group">
           <label htmlFor="note-content">Content </label>
           <textarea type="text"
